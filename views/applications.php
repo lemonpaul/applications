@@ -7,8 +7,8 @@
 	<body>
 		<div>
 			<h1>Заявки на ремонт (<?=$user?>)</h1>
-<?php if ($user == 'admin'): ?>
 			<a href="index.php?action=add">Добавить заявку</a>
+<?php if ($user == 'admin'): ?>
 			<a href="index.php?action=load">Список заявок в xml</a>
 <?php endif ?>
 		<div><br>
