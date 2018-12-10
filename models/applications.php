@@ -178,4 +178,16 @@ function checkDescription($description)
         return false;
 }
 
+function getURL($get)
+{
+    $url = "index.php";
+    if (isset($get['action']) && isset($get['id']))
+        $url .= "?action=".$get['action']."&id=".$get['id'];
+    elseif (isset($get['action']))
+        $url .= "?action=".$get['action'];
+    elseif (isset($get['id']))
+        $url .= "?id=".$get['id'];
+    return $url;
+}
+
 ?>

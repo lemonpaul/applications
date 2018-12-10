@@ -26,7 +26,7 @@ if ($action == "add") {
             
             unset($_SESSION['WRONG_PHONE']);
             unset($_SESSION['WRONG_DESCRIPTION']);
-            $_SESSION['new_id'] = applicationNew($link, $_SESSION['USER'], $_POST['title'], $_POST['phone'], $_POST['description'], $_FILES['image']);
+            $_SESSION['NEW_ID'] = applicationNew($link, $_SESSION['USER'], $_POST['title'], $_POST['phone'], $_POST['description'], $_FILES['image']);
             header("Location: index.php");
         } else {
             if (!checkPhone($_POST['phone']))
@@ -97,7 +97,7 @@ if ($action == "add") {
 } else {
     $applications = applicationsAll($link, $_SESSION['USER']);
     include("views/applications.php");
-    unset($_SESSION['new_id']);
+    unset($_SESSION['NEW_ID']);
 }
 
 ?>

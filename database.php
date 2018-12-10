@@ -2,7 +2,7 @@
 
 define('MYSQL_DSN', 'mysql:dbname=test;host=localhost;charset=utf8');
 define('MYSQL_USER', 'root');
-define('MYSQL_PASSWORD', 'root');
+define('MYSQL_PASSWORD', '');
 
 function db_connect()
 {
