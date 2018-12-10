@@ -6,7 +6,7 @@
 	</head>
 	<body>
 		<div>
-			<h1>Заявка на ремонт (<?=$user?>)</h1>
+			<h1>Заявка на ремонт (<?=$login?>)</h1>
 			<div>
 				<div>
 					<h3><?=$application['title']?></h3>

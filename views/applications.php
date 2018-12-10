@@ -6,9 +6,9 @@
 	</head>
 	<body>
 		<div>
-			<h1>Заявки на ремонт (<?=$user?>)</h1>
+			<h1>Заявки на ремонт (<?=$login?>)</h1>
 			<a href="index.php?action=add">Добавить заявку</a>
-<?php if ($user == 'admin'): ?>
+<?php if ($login == 'admin'): ?>
 			<a href="index.php?action=load">Список заявок в xml</a>
 <?php endif ?>
 		<div><br>
@@ -18,7 +18,7 @@
 					<b>
 <?php endif ?>
 					<p><a href="index.php?action=view&id=<?=$a['id']?>"><?=$a['title']?></a></p>
-<?php if ($user == 'admin'): ?>
+<?php if ($login == 'admin'): ?>
 					<p><i>Пользователь: <?=$a['user']?></i></p>
 <?php endif ?>
 					<p><i>Контактный телефон: <?=$a['phone']?></i></p>

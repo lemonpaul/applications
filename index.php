@@ -16,10 +16,10 @@ else
 if ($action == "add") {
     if (!empty($_POST)) {
         if (checkPhone($_POST['phone']) && checkDescription($_POST['description'])) {
-        	
+            
             unset($_SESSION['wrong_phone']);
             unset($_SESSION['wrong_description']);
-            $_SESSION['new_id'] = applicationNew($link, $user, $_POST['title'], $_POST['phone'], $_POST['description'], $_FILES['image']);
+            $_SESSION['new_id'] = applicationNew($link, $login, $_POST['title'], $_POST['phone'], $_POST['description'], $_FILES['image']);
             header("Location: index.php");
         } else {
             if (!checkPhone($_POST['phone']))
@@ -40,7 +40,7 @@ if ($action == "add") {
         if (checkPhone($_POST['phone']) && checkDescription($_POST['description'])) {
             unset($_SESSION['wrong_phone']);
             unset($_SESSION['wrong_description']);
-            applicationEdit($link, $id, $user, $_POST['title'], $_POST['phone'], $_POST['description'], $_FILES['image']);
+            applicationEdit($link, $id, $login, $_POST['title'], $_POST['phone'], $_POST['description'], $_FILES['image']);
             header("Location: index.php");
         } else {
             if (!checkPhone($_POST['phone']))
@@ -52,25 +52,25 @@ if ($action == "add") {
         unset($_SESSION['wrong_phone']);
         unset($_SESSION['wrong_description']);
     }
-    $application = applicationGet($link, $id, $user);
+    $application = applicationGet($link, $id, $login);
     include("views/application_edit.php");
 } elseif ($action == "delete") {
     $id = $_GET['id'];
-    applicationDelete($link, $id, $user);
+    applicationDelete($link, $id, $login);
     header("Location: index.php");
 } elseif ($action == "view") {
     $id = $_GET['id'];
-    $application = applicationGet($link, $id, $user);
+    $application = applicationGet($link, $id, $login);
     include("views/application.php");
 } elseif ($action == "load") {
-    if ($user == 'admin') {
+    if ($login == 'admin') {
         echo applicationsXml($link);
         header('Content-Disposition: attachment;filename=applications.xml');
     } else {
         header("Location: index.php");
     }
 } else {
-    $applications = applicationsAll($link, $user);
+    $applications = applicationsAll($link, $login);
     include("views/applications.php");
     unset($_SESSION['new_id']);
 }

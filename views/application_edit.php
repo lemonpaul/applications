@@ -6,7 +6,7 @@
 	</head>
 	<body>
 		<div>
-			<h1>Заявка на ремонт (<?=$user?>)</h1>
+			<h1>Заявка на ремонт (<?=$login?>)</h1>
 <?php if ($_SESSION['wrong_phone']): ?>
 			<p><font color="red">Неправильный номер телефона.</font></p>
 <?php endif ?>
