@@ -37,10 +37,10 @@ function applicationNew($link, $user, $title, $phone, $description, $file)
     $description = trim($description);
     $image = null;
     if ($file['tmp_name']) {
-    	$upload_dir	 = $_SERVER['DOCUMENT_ROOT'];
-    	$file_name = '/upload/images/'.time()."_".basename($file['name']);
-    	$upload_file = $upload_dir.$file_name;
-    	move_uploaded_file($file['tmp_name'], $upload_file);
+        $upload_dir     = $_SERVER['DOCUMENT_ROOT'];
+        $file_name = '/upload/images/'.time()."_".basename($file['name']);
+        $upload_file = $upload_dir.$file_name;
+        move_uploaded_file($file['tmp_name'], $upload_file);
         $image = $file_name;
     }
 
@@ -58,16 +58,16 @@ function applicationEdit($link, $id, $user, $title, $phone, $description, $file)
     $id = (int)$id;
 
     if ($file['tmp_name']) {
-    	$query = $link->prepare("SELECT image FROM applications WHERE id=?");
+        $query = $link->prepare("SELECT image FROM applications WHERE id=?");
         $query->execute(array($id));
         $application = $query->fetch(PDO::FETCH_ASSOC);
         $old_image = $application['image'];
-        $upload_dir	 = $_SERVER['DOCUMENT_ROOT'];
+        $upload_dir     = $_SERVER['DOCUMENT_ROOT'];
         if ($old_image) {
-        	unlink($upload_dir.$old_image);
+            unlink($upload_dir.$old_image);
         }
-    	$file_name = '/upload/images/'.time()."_".basename($file['name']);
-    	$upload_file = $upload_dir.$file_name;
+        $file_name = '/upload/images/'.time()."_".basename($file['name']);
+        $upload_file = $upload_dir.$file_name;
         move_uploaded_file($file['tmp_name'], $upload_file);
         $image = $file_name;
     } else {
@@ -103,25 +103,25 @@ function applicationDelete($link, $id, $user)
         return false;
 
     if ($user == 'admin') {
-    	$query = $link->prepare("SELECT image FROM applications WHERE id=?");
+        $query = $link->prepare("SELECT image FROM applications WHERE id=?");
         $query->execute(array($id));
         $application = $query->fetch(PDO::FETCH_ASSOC);
         $old_image = $application['image'];
-        $upload_dir	 = $_SERVER['DOCUMENT_ROOT'];
+        $upload_dir     = $_SERVER['DOCUMENT_ROOT'];
         if ($old_image) {
-        	unlink($upload_dir.$old_image);
+            unlink($upload_dir.$old_image);
         }
 
         $query = $link->prepare("DELETE FROM applications WHERE id=?");
         $query->execute(array($id));
     } else {
-    	$query = $link->prepare("SELECT image FROM applications WHERE id=? AND user=?");
+        $query = $link->prepare("SELECT image FROM applications WHERE id=? AND user=?");
         $query->execute(array($id, $user));
         $application = $query->fetch(PDO::FETCH_ASSOC);
         $old_image = $application['image'];
-        $upload_dir	 = $_SERVER['DOCUMENT_ROOT'];
+        $upload_dir     = $_SERVER['DOCUMENT_ROOT'];
         if ($old_image) {
-        	unlink($upload_dir.$old_image);
+            unlink($upload_dir.$old_image);
         }
         $query = $link->prepare("DELETE FROM applications WHERE id=? AND user=?");
         $query->execute(array($id, $user));
