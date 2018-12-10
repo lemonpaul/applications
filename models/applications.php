@@ -153,7 +153,11 @@ function applicationsXml($link)
         $new_application->addChild('title', $application['title']);
         $new_application->addChild('phone', $application['phone']);
         $new_application->addChild('description', $application['description']);
-        $new_application->addChild('image', $application['image']);
+        if ($application['image']) {
+            $new_image = $new_application->addChild('image');
+            $new_img = $new_image->addChild('img');
+            $new_img->addAttribute('src', "http://".$_SERVER['SERVER_NAME'].$application['image']);
+        }
     }
     return $xml->asXML();
 }
