@@ -153,10 +153,10 @@ function applicationsXml($link)
         $new_application->addChild('title', $application['title']);
         $new_application->addChild('phone', $application['phone']);
         $new_application->addChild('description', $application['description']);
-        if ($application['image']) {
+        if (isset($application['image'])) {
             $new_image = $new_application->addChild('image');
-            $new_img = $new_image->addChild('img');
-            $new_img->addAttribute('src', "http://".$_SERVER['SERVER_NAME'].$application['image']);
+            $img = $new_image->addChild('img');
+            $img->addAttribute('src', "http://".$_SERVER['SERVER_NAME'].$application['image']);
         }
     }
     return $xml->asXML();
@@ -188,6 +188,14 @@ function getURL($get)
     elseif (isset($get['id']))
         $url .= "?id=".$get['id'];
     return $url;
+}
+
+function strict($string, $length)
+{
+    $result = $string;
+    if (strlen($string) > $length - 3)
+        $result = mb_substr($string, 0, $length - 3)."...";
+    return $result;
 }
 
 ?>

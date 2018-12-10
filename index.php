@@ -15,9 +15,9 @@ else
 
 if (!isset($_SESSION['USER']) && ($action != "login"))
 {
-	unset($_SESSION['WRONG_USER']);
-	include("views/login.php");
-	exit();
+    unset($_SESSION['WRONG_USER']);
+    include("views/login.php");
+    exit();
 }
 
 if ($action == "add") {
@@ -70,7 +70,7 @@ if ($action == "add") {
     $application = applicationGet($link, $id, $_SESSION['USER']);
     include("views/application.php");
 } elseif ($action == "load") {
-    if ($login == 'admin') {
+    if ($_SESSION['USER']== 'admin') {
         echo applicationsXml($link);
         header('Content-Disposition: attachment;filename=applications.xml');
     } else {
@@ -80,20 +80,20 @@ if ($action == "add") {
     unset($_SESSION['USER']);
     header("Location: index.php");
 } elseif ($action == "login") {
-	if (!empty($_POST)) {
-		$user = userGet($link, $_POST['user']);
-		if ($user['password'] != md5($_POST['password'])) {
-			$_SESSION['WRONG_USER'] = true;
-			include("views/login.php");
-		} else {
-			$_SESSION['USER'] = $_POST['user'];
-			unset($_SESSION['WRONG_USER']);
-			header("Location: index.php");
-		}
-	} else {
-		unset($_SESSION['WRONG_USER']);
+    if (!empty($_POST)) {
+        $user = userGet($link, $_POST['user']);
+        if ($user['password'] != md5($_POST['password'])) {
+            $_SESSION['WRONG_USER'] = true;
+            include("views/login.php");
+        } else {
+            $_SESSION['USER'] = $_POST['user'];
+            unset($_SESSION['WRONG_USER']);
+            header("Location: index.php");
+        }
+    } else {
+        unset($_SESSION['WRONG_USER']);
         include("views/login.php");
-	}
+    }
 } else {
     $applications = applicationsAll($link, $_SESSION['USER']);
     include("views/applications.php");
