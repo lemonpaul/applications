@@ -16,6 +16,7 @@ else
 if ($action == "add") {
     if (!empty($_POST)) {
         if (checkPhone($_POST['phone']) && checkDescription($_POST['description'])) {
+        	
             unset($_SESSION['wrong_phone']);
             unset($_SESSION['wrong_description']);
             $_SESSION['new_id'] = applicationNew($link, $user, $_POST['title'], $_POST['phone'], $_POST['description'], $_FILES['image']);

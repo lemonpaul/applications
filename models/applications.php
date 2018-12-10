@@ -30,50 +30,65 @@ function applicationGet($link, $id_application, $user)
     return $application;
 }
 
-function applicationNew($link, $user, $title, $phone, $description, $image)
+function applicationNew($link, $user, $title, $phone, $description, $file)
 {
     $title = trim($title);
     $phone = trim($phone);
     $description = trim($description);
-    $image_type=($image) ? $image['type'] : null;
-    $image=($image) ? file_get_contents($image['tmp_name']) : null;
+    $image = null;
+    if ($file['tmp_name']) {
+    	$upload_dir	 = $_SERVER['DOCUMENT_ROOT'];
+    	$file_name = '/upload/images/'.time()."_".basename($file['name']);
+    	$upload_file = $upload_dir.$file_name;
+    	move_uploaded_file($file['tmp_name'], $upload_file);
+        $image = $file_name;
+    }
 
-    if ($title == '')
-        return false;
-
-    $query = $link->prepare("INSERT INTO applications (user, title, phone, description, image, image_type) VALUES (?, ?, ?, ?, ?, ?)");
-    $query->execute(array($user, $title, $phone, $description, $image, $image_type));
+    $query = $link->prepare("INSERT INTO applications (user, title, phone, description, image) VALUES (?, ?, ?, ?, ?)");
+    $query->execute(array($user, $title, $phone, $description, $image));
 
     return $link->lastInsertId();
 }
 
-function applicationEdit($link, $id, $user, $title, $phone, $description, $image)
+function applicationEdit($link, $id, $user, $title, $phone, $description, $file)
 {
     $title = trim($title);
     $phone = trim($phone);
     $description = trim($description);
     $id = (int)$id;
-    $image_type=($image) ? $image['type'] : null;
-    $image=($image) ? file_get_contents($image['tmp_name']) : null;
 
-    if ($title == '')
-        return false;
+    if ($file['tmp_name']) {
+    	$query = $link->prepare("SELECT image FROM applications WHERE id=?");
+        $query->execute(array($id));
+        $application = $query->fetch(PDO::FETCH_ASSOC);
+        $old_image = $application['image'];
+        $upload_dir	 = $_SERVER['DOCUMENT_ROOT'];
+        if ($old_image) {
+        	unlink($upload_dir.$old_image);
+        }
+    	$file_name = '/upload/images/'.time()."_".basename($file['name']);
+    	$upload_file = $upload_dir.$file_name;
+        move_uploaded_file($file['tmp_name'], $upload_file);
+        $image = $file_name;
+    } else {
+        $image = null;
+    }
 
     if ($user == 'admin') {
         if ($image == null) {
             $query = $link->prepare("UPDATE applications SET title=?, phone=?, description=?  WHERE id=?");
             $query->execute(array($title, $phone, $description, $id));
         } else {
-            $query = $link->prepare("UPDATE applications SET title=?, phone=?, description=?, image=?, image_type=?  WHERE id=?");
-            $query->execute(array($title, $phone, $description, $image, $image_type, $id));
+            $query = $link->prepare("UPDATE applications SET title=?, phone=?, description=?, image=?  WHERE id=?");
+            $query->execute(array($title, $phone, $description, $image, $id));
         }
     } else {
         if ($image == null) {
             $query = $link->prepare("UPDATE applications SET title=?, phone=?, description=? WHERE id=? AND user=?");
             $query->execute(array($title, $phone, $description, $id, $user));
         } else {
-            $query = $link->prepare("UPDATE applications SET title=?, phone=?, description=?, image=?, image_type=?  WHERE id=? AND user=?");
-            $query->execute(array($title, $phone, $description, $image, $image_type, $id, $user));
+            $query = $link->prepare("UPDATE applications SET title=?, phone=?, description=?, image=?  WHERE id=? AND user=?");
+            $query->execute(array($title, $phone, $description, $image, $id, $user));
         }
     }
 
@@ -88,9 +103,26 @@ function applicationDelete($link, $id, $user)
         return false;
 
     if ($user == 'admin') {
+    	$query = $link->prepare("SELECT image FROM applications WHERE id=?");
+        $query->execute(array($id));
+        $application = $query->fetch(PDO::FETCH_ASSOC);
+        $old_image = $application['image'];
+        $upload_dir	 = $_SERVER['DOCUMENT_ROOT'];
+        if ($old_image) {
+        	unlink($upload_dir.$old_image);
+        }
+
         $query = $link->prepare("DELETE FROM applications WHERE id=?");
         $query->execute(array($id));
     } else {
+    	$query = $link->prepare("SELECT image FROM applications WHERE id=? AND user=?");
+        $query->execute(array($id, $user));
+        $application = $query->fetch(PDO::FETCH_ASSOC);
+        $old_image = $application['image'];
+        $upload_dir	 = $_SERVER['DOCUMENT_ROOT'];
+        if ($old_image) {
+        	unlink($upload_dir.$old_image);
+        }
         $query = $link->prepare("DELETE FROM applications WHERE id=? AND user=?");
         $query->execute(array($id, $user));
     }
@@ -121,7 +153,7 @@ function applicationsXml($link)
         $new_application->addChild('title', $application['title']);
         $new_application->addChild('phone', $application['phone']);
         $new_application->addChild('description', $application['description']);
-        $new_application->addChild('image_type', $application['image_type']);
+        $new_application->addChild('image', $application['image']);
     }
     return $xml->asXML();
 }

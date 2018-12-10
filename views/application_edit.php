@@ -26,7 +26,7 @@
 
 					<p>Изображение с неисправностью:</p>
 <?php if ($application['image']): ?>
-					<img src="data:<?=$application['image_type']?>;base64,<?=base64_encode($application['image'] )?>"/><br>
+					<img src="<?=$application['image']?>"/><br>
 <?php endif ?>
 					<input type="file" name="image" accept="image/*"><br><br>
 

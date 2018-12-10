@@ -16,7 +16,7 @@
 					<p><i>Контактный телефон: <?=$application['phone']?></i></p>
 					<p><?=$application['description']?></p>
 <?php if ($application['image']): ?>
-					<img src="data:<?=$application['image_type']?>;base64,<?=base64_encode($application['image'] )?>"/>
+					<img src="<?=$application['image']?>"/>
 <?php endif ?>
 				</div>
 			</div>
