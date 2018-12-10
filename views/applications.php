@@ -18,7 +18,7 @@
 	    	<a class="navbar-nav" href="index.php?action=logout">Выйти</a>
 	    </nav>
 		<main role="main" class="container">
-			<h1 class="h3">Список заявок (<?=$_SESSION['USER']?>)</h1>
+			<h1 class="h3">Список заявок</h1>
 			<table class="table table-bordered">
 				<thead>
 				    <tr>
