@@ -193,7 +193,7 @@ function getURL($get)
 function strict($string, $length)
 {
     $result = $string;
-    if (strlen($string) > $length - 3)
+    if (strlen($string) > $length - 1)
         $result = mb_substr($string, 0, $length - 3)."...";
     return $result;
 }
