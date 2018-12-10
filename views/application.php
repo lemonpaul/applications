@@ -6,11 +6,11 @@
 	</head>
 	<body>
 		<div>
-			<h1>Заявка на ремонт (<?=$login?>)</h1>
+			<h1>Заявка на ремонт (<?=$_SESSION['USER']?>)</h1>
 			<div>
 				<div>
 					<h3><?=$application['title']?></h3>
-<?php if ($user == 'admin'): ?>
+<?php if ($_SESSION['USER'] == 'admin'): ?>
 					<p><i>Пользователь: <?=$application['user']?></i></p>
 <?php endif ?>
 					<p><i>Контактный телефон: <?=$application['phone']?></i></p>

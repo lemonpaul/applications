@@ -6,11 +6,11 @@
 	</head>
 	<body>
 		<div>
-			<h1>Заявка на ремонт (<?=$login?>)</h1>
-<?php if ($_SESSION['wrong_phone']): ?>
+			<h1>Заявка на ремонт (<?=$_SESSION['USER']?>)</h1>
+<?php if ($_SESSION['WRONG_PHONE']): ?>
 			<p><font color="red">Неправильный номер телефона.</font></p>
 <?php endif ?>
-<?php if ($_SESSION['wrong_description']): ?>
+<?php if ($_SESSION['WRONG_DESCRIPTION']): ?>
 			<p><font color="red">Описание должно содержать минимум 10 символов.</font></p>
 <?php endif ?>
 			<div>
