@@ -8,16 +8,16 @@
 		<title>Заявки на ремонт</title>
 	</head>
 	<body>
-		<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-			<div class="container d-flex justify-content-between">
-	        	<a href="index.php" class="navbar-brand d-flex align-items-center">
-	        		<strong>Заявки</strong>
-	        	</a>
-	        </div>
-	    	<div class="navbar-brand"><?=$_SESSION['USER']?></div>
-	    	<a class="navbar-nav" href="index.php?action=logout">Выйти</a>
+		<nav class="navbar navbar-collapse navbar-dark bg-dark fixed-top">
+	        <a href="index.php" class="navbar-brand">
+	        	<strong>Заявки</strong>
+	        </a>
+	    	<div class="navbar-right">
+	    		<div class="navbar-brand"><?=$_SESSION['USER']?></div>
+	    		<a class="navbar-toggle" href="index.php?action=logout">Выйти</a>
+	    	</div>
 	    </nav>
-		<main role="main" class="container">
+		<main role="main" class="container-fluid">
 			<h1 class="h3">Список заявок</h1>
 			<table class="table table-bordered">
 				<thead>
