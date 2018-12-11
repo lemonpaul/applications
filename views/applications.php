@@ -4,8 +4,7 @@
 		<meta charset="utf8">
 		<link rel="stylesheet" href="../css/bootstrap.css">
 		<link rel="stylesheet" href="../css/starter-template.css">
-		<script src="../js/bootstrap.js"></script>
-		<title>Заявки на ремонт</title>
+		<title>Заявки</title>
 	</head>
 	<body>
 		<nav class="navbar navbar-collapse navbar-dark bg-dark fixed-top">
@@ -17,7 +16,7 @@
 	    		<a class="navbar-toggle" href="index.php?action=logout">Выйти</a>
 	    	</div>
 	    </nav>
-		<main role="main" class="container-fluid">
+		<div class="container-fluid">
 			<h1 class="h3">Список заявок</h1>
 			<table class="table table-bordered">
 				<thead>
@@ -57,6 +56,6 @@
 <?php if ($_SESSION['USER'] == 'admin'): ?>
 				<a class="btn btn-success" href="index.php?action=load">Скачать в xml</a>
 <?php endif ?>
-		</main>
+		</div>
 	</body>
 </html>

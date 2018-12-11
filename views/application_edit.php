@@ -4,8 +4,7 @@
 		<meta charset="utf8">
 		<link rel="stylesheet" href="../css/bootstrap.css">
 		<link rel="stylesheet" href="../css/starter-template.css">
-		<script src="../js/bootstrap.js"></script>
-		<title>Заявки на ремонт</title>
+		<title>Заявки</title>
 	</head>
 	<body>
 		<nav class="navbar navbar-collapse navbar-dark bg-dark fixed-top">
