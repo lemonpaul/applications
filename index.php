@@ -2,16 +2,13 @@
 
 session_start();
 
-require_once("database.php");
+require_once("models/databases.php");
 require_once("models/applications.php");
 require_once("models/users.php");
 
 $link = db_connect();
 
-if (isset($_GET['action']))
-    $action = $_GET['action'];
-else
-    $action = "";
+$action = (isset($_GET['action'])) ? $_GET['action'] : "";
 
 if (!isset($_SESSION['USER']) && ($action != "login"))
 {
@@ -101,3 +98,5 @@ if ($action == "add") {
 }
 
 ?>
+
+11011

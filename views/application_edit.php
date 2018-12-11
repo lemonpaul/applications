@@ -20,10 +20,10 @@
 			<div class="form-group">
 				<h1>Заявка</h1>
 <?php if (isset($_SESSION['WRONG_PHONE'])): ?>
-					<label class="text-danger">Неправильный номер телефона.</label>
+				<p class="text-danger">Неправильный номер телефона.</p>
 <?php endif ?>
 <?php if (isset($_SESSION['WRONG_DESCRIPTION'])): ?>
-					<label class="text-danger">Описание должно содержать минимум 10 символов.</label>
+				<p class="text-danger">Описание должно содержать минимум 10 символов.</p>
 <?php endif ?>
 			</div>
 			<div class="form-group">
@@ -47,8 +47,9 @@
 				<label for="inputFile">Изображение с неисправностью</label>
 				<input id="inputFile" class="form-control-file" type="file" name="image" accept="image/*">
 			</div>
-
-			<input type="submit" value="Сохранить">
+			<div class="form-group">
+				<input class="btn btn-primary" type="submit" value="Сохранить">
+			</div>
 		</form>
 	</body>
 </html>

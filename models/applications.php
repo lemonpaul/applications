@@ -111,7 +111,6 @@ function applicationDelete($link, $id, $user)
         if ($old_image) {
             unlink($upload_dir.$old_image);
         }
-
         $query = $link->prepare("DELETE FROM applications WHERE id=?");
         $query->execute(array($id));
     } else {
@@ -141,9 +140,11 @@ function applicationsXml($link)
     $query->execute();
     $applications = $query->fetchAll(PDO::FETCH_ASSOC);
 
-    $xmlstr = "<?xml version='1.0' ?>\n";
-    $xmlstr .= "<applications>\n";
-    $xmlstr .= "</applications>";
+    $xmlstr = <<<XML
+<?xml version='1.0' ?>
+<applications>
+</applications>
+XML;
 
     $xml = new SimpleXMLElement($xmlstr);
 
@@ -164,18 +165,12 @@ function applicationsXml($link)
 
 function checkPhone($phone)
 {
-    if (preg_match('/^\+?\d{10,12}$/', $phone))
-        return true;
-    else
-        return false;
+    return preg_match('/^\+?\d{10,12}$/', $phone);
 }
 
 function checkDescription($description)
 {
-    if (preg_match('/^.{10,}$/', $description))
-        return true;
-    else
-        return false;
+    return preg_match('/^.{10,}$/', $description);
 }
 
 function getURL($get)
