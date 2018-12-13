@@ -9,7 +9,7 @@ class ApplicationController
 		if ($_SESSION['user'] == 'admin')
 			$applicationList = Application::getApplicationList();
 		else
-			$applicationList = Application::getApplicationListOfUser();
+			$applicationList = Application::getUsersApplicationList();
 		require_once(ROOT . '/views/application/template.php');
 		unset($_SESSION['new']);
 		return true;
@@ -41,7 +41,7 @@ class ApplicationController
 		if (Application::isApplicationItemOfUser($id, $_SESSION['user']))
 		{
 			if (empty($_POST)) {
-				$applicationItem = Application::getApplicationItemById($id);
+				$applicationItem = Application::getApplicationItem($id);
 			} else {
 				$applicationList = Application::updateApplicationItem($id, $_POST['title'], $_POST['phone'], $_POST['description'], $_FILES['image']);
 				header('Location: /');
@@ -56,7 +56,7 @@ class ApplicationController
 	public function actionDelete($id)
 	{
 		if (Application::isApplicationItemOfUser($id, $_SESSION['user']))
-			$applicationList = Application::deleteApplicationItemById($id);
+			$applicationList = Application::deleteApplicationItem($id);
 		header('Location: /');
 		return true;
 	}
@@ -64,10 +64,21 @@ class ApplicationController
 	public function actionView($id)
 	{
 		if (Application::isApplicationItemOfUser($id, $_SESSION['user']))
-			$applicationItem = Application::getApplicationItemById($id);
+			$applicationItem = Application::getApplicationItem($id);
 		else
 			header('Location: /');
 		require_once(ROOT . '/views/application/template.php');
+		return true;
+	}
+
+	public function actionLoad()
+	{
+		if ($_SESSION['user'] == 'admin') {
+			$xmlElement = Application::getApplicationListAsXML();
+			echo $xmlElement->asXML();
+        	header('Content-Disposition: attachment;filename=applicationList.xml');
+		} else
+			header('Location: /');
 		return true;
 	}
 }

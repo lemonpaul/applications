@@ -135,7 +135,9 @@
 			    </tbody>
 			</table>
 			<a class="btn btn-primary" href="/add">Добавить заявку</a>
-			<!-- <a class="btn btn-success" href="index.php?action=load">Скачать в xml</a> -->
+			<?php if ($_SESSION['user'] == 'admin'): ?>
+			<a class="btn btn-success" href="/load">Скачать в xml</a>
+			<?php endif; ?>
 		</div>
 		<?php endswitch; ?>
 	 </body>

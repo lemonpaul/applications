@@ -4,6 +4,13 @@ include_once ROOT . "/models/User.php";
 
 class UserController
 {
+	public function actionLogout()
+	{
+		unset($_SESSION['user']);
+		header('Location: /');
+		return true;
+	}
+
 	public function actionLogin()
 	{
 		if (!empty($_POST))
@@ -18,13 +25,6 @@ class UserController
 		}
 		require_once(ROOT . '/views/user/login.php');
 		unset($_SESSION['error_login']);
-		return true;
-	}
-
-	public function actionLogout()
-	{
-		unset($_SESSION['user']);
-		header('Location: /');
 		return true;
 	}
 }
