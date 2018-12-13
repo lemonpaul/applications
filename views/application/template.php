@@ -32,6 +32,11 @@
 				<p>Описание должно содержать минимум 10 символов.</p>
 			</div>
 			<?php endif; ?>
+			<?php if (isset($_SESSION['error_image'])): ?>
+			<div class="form-group text-danger">
+				<p>Выбранный файл не является изображением.</p>
+			</div>
+			<?php endif; ?>
 			<div class="form-group">
 				<label for="inputTitle">Название</label>
 				<input id="inputTitle" class="form-control" type="text" name="title" value="" autofocus required>
@@ -58,6 +63,21 @@
 			<div class="form-group">
 				<h1 class="h3 mb-3 font-weight-normal">Заявка</h1>
 			</div>
+			<?php if (isset($_SESSION['error_phone'])): ?>
+			<div class="form text-danger">
+				<p>Неправильный формат номера телефона.</p>
+			</div>
+			<?php endif; ?>
+			<?php if (isset($_SESSION['error_description'])): ?>
+			<div class="form-group text-danger">
+				<p>Описание должно содержать минимум 10 символов.</p>
+			</div>
+			<?php endif; ?>
+			<?php if (isset($_SESSION['error_image'])): ?>
+			<div class="form-group text-danger">
+				<p>Выбранный файл не является изображением.</p>
+			</div>
+			<?php endif; ?>
 			<div class="form-group">
 				<label for="inputTitle">Название</label>
 				<input id="inputTitle" class="form-control" type="text" name="title" value="<?=$applicationItem['title']?>" autofocus required>
