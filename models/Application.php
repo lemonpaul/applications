@@ -31,7 +31,7 @@ class Application
 	{
 		$db = Db::getConnection();
 		if ($file['tmp_name']) {
-			$result = $db->query("SELECT image FROM applications WHERE id=".$id);
+			$result = $db->query('SELECT `image` FROM `applications` WHERE `id`='.$id);
 			$applicationItem = $result->fetch(PDO::FETCH_ASSOC);
 			$oldFile = $applicationItem['image'];
 			if ($oldFile) unlink(ROOT . $oldFile);
@@ -44,6 +44,23 @@ class Application
 		} else {
 			$db->query('UPDATE `applications` SET `title`="' . $title . '",`phone`="'.$phone . '",`description`="'.$description.' WHERE id=' . $id);
 		}
+		$result = $db->query("SELECT * FROM applications ORDER BY id DESC");
+		$applicationList = $result->fetchAll(PDO::FETCH_ASSOC);
+		return $applicationList;
+	}
+
+	public static function addApplicationItem($title, $phone, $description, $file)
+	{
+		$db = Db::getConnection();
+		if ($file['tmp_name']) {
+			$image = '/template/images/'.time()."_".basename($file['name']);
+			$newFile = ROOT.$image;
+			move_uploaded_file($file['tmp_name'], $newFile);
+		} else {
+			$image = null;
+		}
+		$db->query('INSERT INTO `applications`(`user`, `title`, `phone`, `description`, `image`) VALUES ("' . $_SESSION['user'] . '","' . $title . '","' . $phone . '","' . $description . '","' . $image . '")');
+		$id = $db->lastInsertId();
 		$result = $db->query("SELECT * FROM applications ORDER BY id DESC");
 		$applicationList = $result->fetchAll(PDO::FETCH_ASSOC);
 		return $applicationList;
