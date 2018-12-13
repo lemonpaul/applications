@@ -14,15 +14,12 @@ class ApplicationController
 
 	public function actionAdd()
 	{
-		if (empty($_POST)) {
-			require_once(ROOT . '/views/application/template.php');
-		}
-		else {
+		if (!empty($_POST)) {
 			$applicationItem = Application::newApplicationItem();
 			$applicationList = Application::updateApplicationItem($applicationItem['id'], $_POST['title'], $_POST['phone'], $_POST['description'], $_FILES['image']);
 			header('Location: /');
-			require_once(ROOT . '/views/application/template.php');
 		}
+		require_once(ROOT . '/views/application/template.php');
 		return true;
 	}
 
@@ -30,12 +27,11 @@ class ApplicationController
 	{
 		if (empty($_POST)) {
 			$applicationItem = Application::getApplicationItemById($id);
-			require_once(ROOT . '/views/application/template.php');
 		} else {
 			$applicationList = Application::updateApplicationItem($id, $_POST['title'], $_POST['phone'], $_POST['description'], $_FILES['image']);
 			header('Location: /');
-			require_once(ROOT . '/views/application/template.php');	
 		}
+		require_once(ROOT . '/views/application/template.php');
 		return true;
 	}
 

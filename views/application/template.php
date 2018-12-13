@@ -12,11 +12,11 @@
 	        	<strong>Заявки</strong>
 	        </a>
 	    	<div class="navbar-right">
-	    		<div class="navbar-brand">USER</div>
+	    		<div class="navbar-brand"><?= $_SESSION['user'] ?></div>
 	    		<a class="navbar-toggle" href="/logout">Выйти</a>
 	    	</div>
 	    </nav>
-		<?php switch(Router::getFirstSegmentOfURI()): 
+		<?php switch(Router::getFirstSegmentOfURI()):
 		case "add": ?>
 		<form class="container-fluid" enctype="multipart/form-data" method="post" action="/add">
 			<div class="form-group">

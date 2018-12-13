@@ -38,10 +38,12 @@ class Application
 			$image = '/template/images/'.time()."_".basename($file['name']);
 			$newFile = ROOT.$image;
 			move_uploaded_file($file['tmp_name'], $newFile);
-		} else {
-			$image = null;
 		}
-		$db->query("UPDATE `applications` SET `title`=\"" . $title . "\",`phone`=\"".$phone . "\",`description`=\"".$description."\",`image`=\"".$image."\" WHERE id=" . $id);
+		if (isset($image)) {
+			$db->query('UPDATE `applications` SET `title`="' . $title . '",`phone`="'.$phone . '",`description`="'.$description.'",`image`="' . $image . '" WHERE id=' . $id);
+		} else {
+			$db->query('UPDATE `applications` SET `title`="' . $title . '",`phone`="'.$phone . '",`description`="'.$description.' WHERE id=' . $id);
+		}
 		$result = $db->query("SELECT * FROM applications ORDER BY id DESC");
 		$applicationList = $result->fetchAll(PDO::FETCH_ASSOC);
 		return $applicationList;
