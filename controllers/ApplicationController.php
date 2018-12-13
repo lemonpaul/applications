@@ -8,18 +8,20 @@ class ApplicationController
 	public function actionIndex()
 	{
 		$applicationList = Application::getApplicationList();
-		require_once(ROOT . '/views/application/index.php');
+		require_once(ROOT . '/views/application/template.php');
 		return true;
 	}
 
 	public function actionAdd()
 	{
 		if (empty($_POST)) {
-			$applicationItem = Application::newApplicationItem();
-			require_once(ROOT . '/views/application/edit.php');
+			require_once(ROOT . '/views/application/template.php');
 		}
 		else {
-			$applicationList = Application::updateApplicationItem($_POST['id'], $_POST['title'], $_POST['phone'], $_POST['description'], $_FILES['image']);
+			$applicationItem = Application::newApplicationItem();
+			$applicationList = Application::updateApplicationItem($applicationItem['id'], $_POST['title'], $_POST['phone'], $_POST['description'], $_FILES['image']);
+			header('Location: /');
+			require_once(ROOT . '/views/application/template.php');
 		}
 		return true;
 	}
@@ -28,10 +30,11 @@ class ApplicationController
 	{
 		if (empty($_POST)) {
 			$applicationItem = Application::getApplicationItemById($id);
-			require_once(ROOT . '/views/application/edit.php');
+			require_once(ROOT . '/views/application/template.php');
 		} else {
 			$applicationList = Application::updateApplicationItem($id, $_POST['title'], $_POST['phone'], $_POST['description'], $_FILES['image']);
-			require_once(ROOT . '/views/application/index.php');	
+			header('Location: /');
+			require_once(ROOT . '/views/application/template.php');	
 		}
 		return true;
 	}
@@ -39,14 +42,15 @@ class ApplicationController
 	public function actionDelete($id)
 	{
 		$applicationList = Application::deleteApplicationItemById($id);
-		require_once(ROOT . '/views/application/index.php');
+		header('Location: /');
+		require_once(ROOT . '/views/application/template.php');
 		return true;
 	}
 
 	public function actionView($id)
 	{
 		$applicationItem = Application::getApplicationItemById($id);
-		require_once(ROOT . '/views/application/view.php');
+		require_once(ROOT . '/views/application/template.php');
 		return true;
 	}
 }
