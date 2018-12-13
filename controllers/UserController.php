@@ -11,13 +11,13 @@ class UserController
 			if (User::isUserItem($_POST['login'], $_POST['password']))
 			{
 				$_SESSION['user'] = $_POST['login'];
+				header('Location: /');
 			} else {
 				$_SESSION['error_login'] = true;
 			}
-			header('Location: /');
-		} else {
-			require_once(ROOT . '/views/user/login.php');
 		}
+		require_once(ROOT . '/views/user/login.php');
+		unset($_SESSION['error_login']);
 		return true;
 	}
 

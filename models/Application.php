@@ -10,6 +10,14 @@ class Application
 		return $applicationList;
 	}
 
+	public static function getApplicationListOfUser()
+	{
+		$db = Db::getConnection();
+		$result = $db->query('SELECT * FROM applications WHERE user="'.$_SESSION['user'].'" ORDER BY id DESC');
+		$applicationList = $result->fetchAll(PDO::FETCH_ASSOC);
+		return $applicationList;
+	}
+
 	public static function getApplicationItemById($id)
 	{
 		$db = Db::getConnection();
@@ -21,7 +29,7 @@ class Application
 	public static function deleteApplicationItemById($id)
 	{
 		$db = Db::getConnection();
-		$db->query('DELETE FROM applications WHERE id=' . $id );
+		$db->query('DELETE FROM applications WHERE id=' . $id);
 		$result = $db->query('SELECT * FROM applications ORDER BY id DESC');
 		$applicationList = $result->fetchAll(PDO::FETCH_ASSOC);
 		return $applicationList;
@@ -61,9 +69,7 @@ class Application
 		}
 		$db->query('INSERT INTO `applications`(`user`, `title`, `phone`, `description`, `image`) VALUES ("' . $_SESSION['user'] . '","' . $title . '","' . $phone . '","' . $description . '","' . $image . '")');
 		$id = $db->lastInsertId();
-		$result = $db->query("SELECT * FROM applications ORDER BY id DESC");
-		$applicationList = $result->fetchAll(PDO::FETCH_ASSOC);
-		return $applicationList;
+		return $id;
 	}
 
 	public static function newApplicationItem()
@@ -74,5 +80,15 @@ class Application
 		$result = $db->query('SELECT * FROM applications WHERE id=' . $id);
 		$applicationItem = $result->fetch(PDO::FETCH_ASSOC);
 		return $applicationItem;
+	}
+
+	public static function isApplicationItemOfUser($id, $user)
+	{
+		if ($user == 'admin')
+			return true;
+		$db = Db::getConnection();
+		$result = $db->query('SELECT * FROM applications WHERE id=' . $id);
+		$applicationItem = $result->fetch(PDO::FETCH_ASSOC);
+		return ($applicationItem['user'] == $user);
 	}
 }
