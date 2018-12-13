@@ -21,7 +21,7 @@ class ApplicationController
             if (!preg_match('/^\+?\d{11,12}$/', $_POST['phone'])) {
                 $_SESSION['error_phone'] = true;
             }
-            if (!preg_match('/^.{20,}$/', $_POST['description'])) {
+            if (!preg_match('/^.{10,}$/', $_POST['description'])) {
                 $_SESSION['error_description'] = true;
             }
             if ($_FILES['image']['tmp_name'] && !preg_match('/^image\/.*/', mime_content_type($_FILES['image']['tmp_name']))) {
@@ -48,7 +48,7 @@ class ApplicationController
                 if (!preg_match('/^\+?\d{11,12}$/', $_POST['phone'])) {
                     $_SESSION['error_phone'] = true;
                 }
-                if (!preg_match('/^.{20,}$/', $_POST['description'])) {
+                if (!preg_match('/^.{10,}$/', $_POST['description'])) {
                     $_SESSION['error_description'] = true;
                 }
                 if ($_FILES['image']['tmp_name'] && !preg_match('/^image\/.*/', mime_content_type($_FILES['image']['tmp_name']))) {

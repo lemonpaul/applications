@@ -13,16 +13,18 @@ class Application
     public static function getUsersApplicationList()
     {
         $db = Db::getConnection();
-        $result = $db->query('SELECT * FROM applications WHERE user="'.$_SESSION['user'].'" ORDER BY id');
-        $applicationList = $result->fetchAll(PDO::FETCH_ASSOC);
+        $statement = $db->prepare('SELECT * FROM applications WHERE user=? ORDER BY id');
+        $statement->execute(array($_SESSION['user']));
+        $applicationList = $statement->fetchAll(PDO::FETCH_ASSOC);
         return $applicationList;
     }
 
     public static function getApplicationItem($id)
     {
         $db = Db::getConnection();
-        $result = $db->query('SELECT * FROM applications WHERE id=' . $id);
-        $applicationItem = $result->fetch(PDO::FETCH_ASSOC);
+        $statement = $db->prepare('SELECT * FROM applications WHERE id=?');
+        $statement->execute(array(intval($id)));
+        $applicationItem = $statement->fetch(PDO::FETCH_ASSOC);
         return $applicationItem;
     }
 
@@ -30,11 +32,13 @@ class Application
     {
         echo deleteApplicationItem;
         $db = Db::getConnection();
-        $result = $db->query('SELECT * FROM applications WHERE id=' . $id);
-        $applicationItem = $result->fetch(PDO::FETCH_ASSOC);
+        $statement = $db->prepare('SELECT image FROM applications WHERE id=?');
+        $statement->execute(array((int)$id));
+        $applicationItem = $statement->fetch(PDO::FETCH_ASSOC);
         if ($applicationItem['image']) unlink(ROOT . $applicationItem['image']);
-        $db->query('DELETE FROM applications WHERE id=' . $id);
-        $result = $db->query('SELECT * FROM applications ORDER BY id ASc');
+        $statement = $db->prepare('DELETE FROM applications WHERE id=?');
+        $statement->execute(array((int)$id));
+        $result = $db->query('SELECT * FROM applications ORDER BY id');
         $applicationList = $result->fetchAll(PDO::FETCH_ASSOC);
         return $applicationList;
     }
@@ -42,16 +46,19 @@ class Application
     public static function updateApplicationItem($id, $title, $phone, $description, $file)
     {
         $db = Db::getConnection();
-        $result = $db->query('SELECT * FROM applications WHERE id="' . $id . '"');
-        $applicationListItem = $result->fetch(PDO::FETCH_ASSOC);
+        $statement = $db->prepare('SELECT image FROM applications WHERE id=?');
+        $statement->execute(array(intval($id)));
+        $applicationListItem = $statement->fetch(PDO::FETCH_ASSOC);
         if ($file['tmp_name']) {
             if ($applicationItem['image']) unlink(ROOT . $applicationItem['image']);
             $image = '/template/images/'.time()."_".basename($file['name']);
             $newFile = ROOT . $image;
             move_uploaded_file($file['tmp_name'], $newFile);
-            $db->query('UPDATE applications SET title="'.$title.'", phone="'.$phone.'", description="'.$description.'", image="'.$image.'" WHERE id="'.$id.'"');
+            $statement = $db->prepare('UPDATE applications SET title=?, phone=?, description=?, image=? WHERE id=?');
+            $statement->execute(array($title, $phone, $description, $image, intval($id)));
         } else {
-            $db->query('UPDATE applications SET title="'.$title.'", phone="'.$phone.'", description="'.$description.'" WHERE id="'.$id.'"');
+            $statement = $db->prepare('UPDATE applications SET title=?, phone=?, description=? WHERE id=?');
+            $statement->execute(array($title, $phone, $description, $id));
         }
         return true;
     }
@@ -66,7 +73,8 @@ class Application
         } else {
             $image = null;
         }
-        $db->query('INSERT INTO `applications`(`user`, `title`, `phone`, `description`, `image`) VALUES ("' . $_SESSION['user'] . '","' . $title . '","' . $phone . '","' . $description . '","' . $image . '")');
+        $statement = $db->prepare('INSERT INTO applications (user, title, phone, description, image) VALUES (?,?,?,?,?)');
+        $statement->execute(array($_SESSION['user'],$title, $phone, $description, $image));
         $id = $db->lastInsertId();
         return $id;
     }
@@ -76,8 +84,9 @@ class Application
         if ($user == 'admin')
             return true;
         $db = Db::getConnection();
-        $result = $db->query('SELECT * FROM applications WHERE id=' . $id);
-        $applicationItem = $result->fetch(PDO::FETCH_ASSOC);
+        $statement = $db->prepare('SELECT * FROM applications WHERE id=?');
+        $statement->execute(array(intval($id)));
+        $applicationItem = $statement->fetch(PDO::FETCH_ASSOC);
         return ($applicationItem['user'] == $user);
     }
 
