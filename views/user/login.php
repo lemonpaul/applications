@@ -9,9 +9,9 @@
 	<body class="text-center">
 		<form class="form-signin" method="post" action="/login">
 			<h1 class="h3 mb-3 font-weight-normal">Авторизация</h1>
-			<?php if (isset($_SESSION['error_login'])): ?>
+<?php if (isset($_SESSION['error_login'])): ?>
 			<p class="text-danger">Неверный логин или пароль.</p>
-			<?php endif; ?>
+<?php endif; ?>
 			<label for="inputLogin" class="sr-only">Имя пользователя:</label>
 			<input id="inputLogin" class="form-control" placeholder="Имя пользователя" type="text" name="login" autofocus required>
 			<label for="inputPassword:" class="sr-only">Пароль:</label>

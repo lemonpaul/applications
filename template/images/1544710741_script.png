@@ -1,8 +1,0 @@
-#!/usr/bash
-
-while [ $LD_LIBRARY_PATH == "/lib/x86_64-linux-gnu" ]
-do
-  echo wrong
-done
-
-echo good

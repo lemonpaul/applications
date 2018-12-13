@@ -11,7 +11,7 @@ require_once(ROOT.'/components/Db.php');
 session_start();
 
 if (!isset($_SESSION['user']) && (Router::getFirstSegmentOfURI() != "login")) {
-	header("Location: /login");
+    header("Location: /login");
 }
 
 $router = new Router();
