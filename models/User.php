@@ -5,9 +5,9 @@ class User
     public static function isUserItem($login, $password)
     {
         $db = Db::getConnection();
-        $statement = $db->prepare('SELECT * FROM users WHERE login=? AND password=?');
-        $statement->execute(array($login, md5($password)));
+        $statement = $db->prepare('SELECT * FROM users WHERE login=?');
+        $statement->execute(array($login));
         $userItem = $statement->fetch(PDO::FETCH_ASSOC);
-        return $userItem['login'] == $login;
+        return password_verify($password, $userItem['password']);
     }
 }
