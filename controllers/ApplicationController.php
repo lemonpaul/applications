@@ -8,7 +8,7 @@ class ApplicationController
             $applicationList = Application::getApplicationList();
         else
             $applicationList = Application::getUsersApplicationList();
-        require_once(ROOT . '/views/application/template.php');
+        require_once(ROOT . '/views/application/index.php');
         unset($_SESSION['new']);
         return true;
     }
@@ -30,7 +30,7 @@ class ApplicationController
                 header('Location: /');
             }
         }
-        require_once(ROOT . '/views/application/template.php');
+        require_once(ROOT . '/views/application/add.php');
         unset($_SESSION['error_phone']);
         unset($_SESSION['error_description']);
         unset($_SESSION['error_image']);
@@ -64,7 +64,7 @@ class ApplicationController
         } else {
             header('Location: /');
         }
-        require_once(ROOT . '/views/application/template.php');
+        require_once(ROOT . '/views/application/edit.php');
         unset($_SESSION['error_phone']);
         unset($_SESSION['error_description']);
         unset($_SESSION['error_image']);
@@ -86,7 +86,7 @@ class ApplicationController
             $applicationItem = Application::getApplicationItem($id);
         else
             header('Location: /');
-        require_once(ROOT . '/views/application/template.php');
+        require_once(ROOT . '/views/application/view.php');
         return true;
     }
 
