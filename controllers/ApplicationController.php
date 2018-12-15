@@ -1,7 +1,5 @@
 <?php
 
-include_once ROOT . "/models/Application.php";
-
 class ApplicationController
 {
     public function actionIndex()
@@ -55,8 +53,12 @@ class ApplicationController
                     $_SESSION['error_image'] = true;
                 }
                 if (!isset($_SESSION['error_phone']) && !isset($_SESSION['error_description']) && !isset($_SESSION['error_image'])) {
-                    Application::updateApplicationItem($id, $_POST['title'], $_POST['phone'], $_POST['description'], $_FILES['image']);
-                    header('Location: /');
+                    if (!Application::updateApplicationItem($id, $_POST['title'], $_POST['phone'], $_POST['description'], $_FILES['image']))
+                    {
+                        $_SESSION['error_update'] = true;
+                    } else {
+                        header('Location: /');
+                    }
                 }
             }
         } else {
@@ -66,6 +68,7 @@ class ApplicationController
         unset($_SESSION['error_phone']);
         unset($_SESSION['error_description']);
         unset($_SESSION['error_image']);
+        unset($_SESSION['error_update']);
         return true;
     }
 

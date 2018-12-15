@@ -59,7 +59,7 @@
 		</form>
 <?php break; ?>
 <?php case "edit": ?>
-		<form class="container-fluid" enctype="multipart/form-data" method="post" action="<?="/"."edit".("/".$applicationItem['id']) ?>">
+		<form class="container-fluid" enctype="multipart/form-data" method="post" action="<?="/edit".("/".$applicationItem['id']) ?>">
 			<div class="form-group">
 				<h1 class="h3 mb-3 font-weight-normal">Заявка</h1>
 			</div>
@@ -76,6 +76,11 @@
 <?php if (isset($_SESSION['error_image'])): ?>
 			<div class="form-group text-danger">
 				<p>Выбранный файл не является изображением.</p>
+			</div>
+<?php endif; ?>
+<?php if (isset($_SESSION['error_update'])): ?>
+			<div class="form-group text-danger">
+				<p>Невозможно обновить заявку.</p>
 			</div>
 <?php endif; ?>
 			<div class="form-group">

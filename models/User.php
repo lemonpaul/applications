@@ -1,5 +1,7 @@
 <?php
 
+namespace User;
+
 class User
 {
     public static function isUserItem($login, $password)

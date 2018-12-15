@@ -48,17 +48,20 @@ class Application
         $db = Db::getConnection();
         $statement = $db->prepare('SELECT image FROM applications WHERE id=?');
         $statement->execute(array(intval($id)));
-        $applicationListItem = $statement->fetch(PDO::FETCH_ASSOC);
+        $applicationItem = $statement->fetch(PDO::FETCH_ASSOC);
         if ($file['tmp_name']) {
             if ($applicationItem['image']) unlink(ROOT . $applicationItem['image']);
             $image = '/template/images/'.time()."_".basename($file['name']);
             $newFile = ROOT . $image;
-            move_uploaded_file($file['tmp_name'], $newFile);
+            if (!move_uploaded_file($file['tmp_name'], $newFile)) return false;
             $statement = $db->prepare('UPDATE applications SET title=?, phone=?, description=?, image=? WHERE id=?');
-            $statement->execute(array($title, $phone, $description, $image, intval($id)));
+            if (!$statement->execute(array($title, $phone, $description, $image, intval($id)))) {
+                unlink($newFile);
+                return false;
+            }
         } else {
             $statement = $db->prepare('UPDATE applications SET title=?, phone=?, description=? WHERE id=?');
-            $statement->execute(array($title, $phone, $description, $id));
+            if (!$statement->execute(array($title, $phone, $description, $id))) return false;
         }
         return true;
     }
